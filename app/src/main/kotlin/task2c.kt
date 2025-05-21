@@ -63,9 +63,9 @@ fun main() {
     // и генерирует последовательность чисел от 1 до n.
     // Используйте аннотацию tailrec для оптимизации.
 
-    tailrec fun genSequence(n: Int, i: Int = 0): Int {
-        //останавливаемся когда дошли до 0
-        if (n == 0) {
+    tailrec fun genSequence(n: Int, i: Int = 1): Int {
+        //останавливаемся когда дошли до <= 0
+        if (n <= 0) {
             return i
         }
         print("$i ")
