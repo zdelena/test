@@ -10,11 +10,7 @@ fun main() {
      * @return наибольшее из переданных параметров
      */
     fun maxOfTwo(a: Int, b: Int): Int {
-        return if (a > b) {
-            a
-        } else {
-            b
-        }
+        return if (a > b) a else b
     }
     //пары (a,b) (c,d)
     val a = 4
@@ -27,7 +23,6 @@ fun main() {
     //Задание 2: Создайте функцию sayHello, которая принимает строковый аргумент name и возвращает
     // приветственное сообщение. Функция должна иметь параметр по умолчанию "мир". Затем вызовите
     // функцию дважды: с именем и без имени.
-
     fun sayHello(name: String = "мир") {
         println("Привет, $name!!!")
     }
@@ -44,47 +39,46 @@ fun main() {
     var max1 = Int.MIN_VALUE
     var max2 = Int.MIN_VALUE
     //большее из пары (a,b)
-//    if (a isGreater b) {
-//        max1 = a
-//    } else max1 = b
-    max1 = if (a isGreater b) {
-        a
-    } else b
+    max1 = if (a isGreater b) a else b
     //большее из пары (c,d)
-    max2 = if (c isGreater d) {
-        c
-    } else d
+    max2 = if (c isGreater d) c else d
     //большее из max(a,b) и max(c,d)
-    if (max1 isGreater max2) {
-        println(max1)
-    } else println(max2)
+    if (max1 isGreater max2) println(max1) else println(max2)
 
     //Задание 4: Создайте рекурсивную функцию generateSequence, которая принимает целое число n
     // и генерирует последовательность чисел от 1 до n.
     // Используйте аннотацию tailrec для оптимизации.
-
-    tailrec fun genSequence(n: Int, i: Int = 1, str: String=""): String {
-        //останавливаемся когда дошли до <= 0
-//        if (n <= 0) {
-//            return i
-//        }
-        //print("$i ")
-
-        //return genSequence(n-1, i+1)
-        return if (i>n) { str.trim()} else {
-            genSequence(n, i+1, "$str$i ")
+    //вар 1
+    tailrec fun genSequence(n: Int, i: Int = 1): Int {
+        // останавливаемся когда дошли до <= 0
+        if (n <= 0) {
+            return i
+        }
+        print("$i ")
+        return genSequence(n - 1, i + 1)
+    }
+    genSequence(5) // 1 2 3 4 5
+    println()
+    //вар 2 - если ввести строку
+    tailrec fun generateSequence(n: Int, i: Int = 1, str: String = ""): String {
+        //останавливаемся если i > n
+        return if (i > n) {
+            str.trim() //вернуть обрезанную строку (без "незначащих" пробелов)
+        } else {
+            generateSequence(n, i + 1, "$str$i ") //str = "" -> "1 " -> "1 2 " -> "1 2 3 " -> ...
         }
     }
-
-    println(genSequence(5))
+    println("generateSequence(0) = ${generateSequence(0)}")
+    println("generateSequence(5) = ${generateSequence(5)}")
+    println()
 
     //Задание 5: Создайте список имен и используйте функции let, run, also, apply и with для выполнения
     // различных операций над этим списком (например, добавьте имя, удалите имя, переверните список и т. д.).
 
-    var names = mutableListOf("Елена","Лера", "Даша", "Настя", "Кирилл", "Вася")
+    var names = mutableListOf("Елена", "Лера", "Даша", "Настя", "Кирилл", "Вася")
     println(names)
     //let
-    names.let{
+    names.let {
         it.add("Женя")
         println("После добавления Жени: $it")
     }
@@ -120,7 +114,7 @@ fun main() {
     with(names) {
         println("До изменения $this")
         removeAt(2)
-        removeAll {  it.length > 4 }
+        removeAll { it.length > 4 }
         println("После удаления третьего и длиннее 4: $this")
     }
 
