@@ -63,16 +63,20 @@ fun main() {
     // и генерирует последовательность чисел от 1 до n.
     // Используйте аннотацию tailrec для оптимизации.
 
-    tailrec fun genSequence(n: Int, i: Int = 1): Int {
+    tailrec fun genSequence(n: Int, i: Int = 1, str: String=""): String {
         //останавливаемся когда дошли до <= 0
-        if (n <= 0) {
-            return i
+//        if (n <= 0) {
+//            return i
+//        }
+        //print("$i ")
+
+        //return genSequence(n-1, i+1)
+        return if (i>n) { str.trim()} else {
+            genSequence(n, i+1, "$str$i ")
         }
-        print("$i ")
-        return genSequence(n-1, i+1)
     }
-    genSequence(5)
-    println()
+
+    println(genSequence(5))
 
     //Задание 5: Создайте список имен и используйте функции let, run, also, apply и with для выполнения
     // различных операций над этим списком (например, добавьте имя, удалите имя, переверните список и т. д.).
