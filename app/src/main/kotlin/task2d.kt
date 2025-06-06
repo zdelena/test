@@ -56,7 +56,7 @@ fun main() {
     println()
 
     /*
-    Создайте абстрактный класс Shape с абстрактным методом area(),
+    8. Создайте абстрактный класс Shape с абстрактным методом area(),
     затем создайте классы Circle и Rectangle, реализующие этот метод.
     Создайте объекты Circle и Rectangle и выведите их площадь.
      */
@@ -64,7 +64,7 @@ fun main() {
     println()
 
     /*
-    Создайте интерфейс Flyable с методом fly() и интерфейс Navigable  с методом navigate(),
+    9. Создайте интерфейс Flyable с методом fly() и интерфейс Navigable  с методом navigate(),
     затем создайте классы Bird и Airplane, реализующие эти интерфейсы.
     Создайте объекты Bird и Airplane и вызовите их методы fly() и navigate().
      */
@@ -79,7 +79,7 @@ fun main() {
     println()
 
     /*
-    Создайте sealed class MathOperation и несколько объектов, представляющих различные
+    11. Создайте sealed class MathOperation и несколько объектов, представляющих различные
     математические операции (например, Add, Subtract, Multiply, Divide).
     Создайте функцию, которая принимает MathOperation и два числа, и выполняет соответствующую операцию.
      */
@@ -92,6 +92,22 @@ fun main() {
     оба этих поведения (с помощью композиции).
      */
     oopTask12()
+    println()
+
+    /*
+    13. Создайте классы Engine и Tires. Затем создайте класс Car, который получает Engine и Tires
+    через конструктор (Dependency Injection).
+     */
+    oopTask13()
+    println()
+
+    /*
+    14. Создайте обобщенный интерфейс Repository<T>, который содержит методы
+    для сохранения (save(item: T)), удаления (delete(item: T))
+    и получения всех элементов (getAll(): List<T>).
+    Реализуйте этот интерфейс в классе UserRepository для работы с объектами класса User.
+     */
+    oopTask14()
     println()
 }
 
@@ -387,21 +403,65 @@ class Bat() {
     }
 }
 
+fun oopTask13() {
+    println("Task 13:")
+    val car = CarDI(Engine(), Tires())
+    car.checkCar()
+}
 
+class Engine() {
+    fun checkEngine() {
+        println("Engine works")
+    }
+}
 
+class Tires() {
+    fun checkTires() {
+        println("Tires are okay")
+    }
+}
 
+//зависимости передаем в конструкторе
+class CarDI(private val engine: Engine, private val tire: Tires) {
+    fun checkCar() {
+        engine.checkEngine()
+        tire.checkTires()
+        println("Car is ok, ready to go")
+    }
+}
 
+fun oopTask14() {
+    println("Task 14:")
+    val userRepository = UserRepository()
+    val user1 = User("Lena", 26)
+    userRepository.save(user1)
+    userRepository.save(User("Jane", 23))
+    userRepository.save(User("Mike", 27))
+    println(userRepository.getAll())
+    userRepository.delete(user1)
+    println(userRepository.getAll())
+}
 
+interface Repository<T> {
+    fun save(item: T)
+    fun delete(item: T)
+    fun getAll(): List<T>
+}
 
+class UserRepository : Repository<User> {
 
+    private val list = mutableListOf<User>()
 
+    override fun save(item: User) {
+        list.add(item)
+    }
 
+    override fun delete(item: User) {
+        list.remove(item)
+    }
 
+    override fun getAll(): List<User> {
+        return list
+    }
 
-
-
-
-
-
-
-
+}
